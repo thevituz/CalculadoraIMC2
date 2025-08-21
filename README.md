@@ -12,10 +12,10 @@ O objetivo é praticar conceitos básicos de programação, tratamento de erros 
 ## 📷 Imagens do Projeto
 
 ### Tela inicial
-![Tela Inicial](b5491b04-6e3a-47c7-b4a3-973b9aad96a9.png)
+![Tela Inicial](./Calculadora.png)
 
 ### Exemplo de uso
-![Exemplo](e248b392-1742-4154-a9eb-dae5d586d0f8.png)
+![Exemplo](./Erro.png)
 
 ## 🚀 Tecnologias Utilizadas
 - C#
