@@ -287,6 +287,8 @@
             this.btnLimpar.TabIndex = 15;
             this.btnLimpar.Text = "C";
             this.btnLimpar.UseVisualStyleBackColor = false;
+            this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
+
             // 
             // txtTela
             // 

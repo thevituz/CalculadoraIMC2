@@ -1,74 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CalculadoraIMC2
 {
     public partial class Form1 : Form
-
     {
-        // Variáveis Globais:
+        // Variável para saber se o último clique foi operador
         bool operadorClicado = true;
 
         public Form1()
         {
             InitializeComponent();
         }
-
         private void btnIgual_Click(object sender, EventArgs e)
         {
-            // implementar depois...
+            try
+            {
+                string expressao = txtTela.Text;
+
+                // Evitar erro se terminar com operador
+                if (expressao.EndsWith("+") || expressao.EndsWith("-") ||
+                    expressao.EndsWith("*") || expressao.EndsWith("/"))
+                {
+                    expressao = expressao.Substring(0, expressao.Length - 1);
+                }
+
+                var resultado = new DataTable().Compute(expressao, null);
+
+                // Se for NaN ou infinito, mostrar mensagem personalizada
+                if (resultado == DBNull.Value ||
+                    resultado.ToString() == "NaN" ||
+                    resultado.ToString() == "∞" ||
+                    resultado.ToString() == "-∞")
+                {
+                    txtTela.Text = ":c";
+                }
+                else
+                {
+                    txtTela.Text = resultado.ToString();
+                }
+            }
+            catch
+            {
+                txtTela.Text = ":c"; // Erro genérico
+            }
         }
+
         private void numero_Click(object sender, EventArgs e)
         {
-            // Obter o botão que está chamando esse evento
-            Button BotaoClicado = (Button)sender;
+            Button botaoClicado = (Button)sender;
 
-            // Adiconar o text do botão clidado no TextBox
-            txtTela.Text = BotaoClicado.Text;
-
-            // "abaixar badeirinha
-            operadorClicado = false;
-
-        }
-        private void operador_Click(object sender, EventArgs e)
-        {
-            // Verificar se o operador ainda não foi clicado:
-            if (operadorClicado == false)
+            // Se a tela estiver "0" ou acabou de clicar operador, concatena o número
+            if (txtTela.Text == "0" || operadorClicado == true)
             {
-                // Obter o botão que está chamando esse evento:
-                Button botaoClicado = (Button)sender;
-
-                // Adicionar o Text do botão clicado no TextBox:
                 txtTela.Text += botaoClicado.Text;
-
-                // Mudar o operadorClicado para true (levantar a bandeirinha):
-                operadorClicado = true;
+            }
+            else
+            {
+                txtTela.Text += botaoClicado.Text;
             }
 
+            operadorClicado = false;
+        }
 
+        private void operador_Click(object sender, EventArgs e)
+        {
+            if (operadorClicado == false)
+            {
+                Button botaoClicado = (Button)sender;
+                txtTela.Text += botaoClicado.Text;
 
+                operadorClicado = true;
+            }
+        }
 
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            txtTela.Text = ""; // limpa a tela
+            operadorClicado = true;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
